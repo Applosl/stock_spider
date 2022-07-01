@@ -1,4 +1,5 @@
 import click
+from config import VERSION, APP_NAME
 
 
 @click.group()
@@ -14,6 +15,11 @@ def start():
 @main.command()
 def tasks():
     click.echo('tasks')
+
+
+@main.command()
+def info():
+    click.echo("App: {}\nVersion: {}".format(APP_NAME, VERSION))
 
 
 if __name__ == '__main__':
