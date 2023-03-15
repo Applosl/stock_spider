@@ -1,6 +1,6 @@
 """
 stock_list_task
-股票列表任务
+每天股票抓取任务
 """
 import os
 import requests
@@ -19,13 +19,13 @@ def _to_stock_dict(item, fields):
 
 
 class StockDailyTask(Task):
-    _name = 'stock_daily'
+    _name = 'day_stock'
     _token = os.getenv("TUSHARE_TOKEN", "")
 
     def run(self):
-        ts_code = self._args.get('ts_code', '')
-        if not ts_code:
-            print('缺失必要参数ts_code')
+        day = self._args.get('day', '')
+        if not day:
+            print('缺失必要参数day')
             return
         offset = 0
         limit = 5000
@@ -46,13 +46,12 @@ class StockDailyTask(Task):
         item_type_set = self._build_item(items, fields)
         self._save_db(item_type_set)
 
-    def fetch_data_pack(self, ts_code: str, limit: int, offset: int):
+    def fetch_data_pack(self, day: str, limit: int, offset: int):
         session = requests.session()
         data = {
             'api_name': 'daily',
             'token': self._token,
             'params': {
-                "start_date": "20220701",
                 "ts_code": ts_code,
                 "limit": limit,
                 "offset": offset

@@ -1,4 +1,3 @@
-import time
 import unittest
 from dotenv import load_dotenv
 from tasks.stock_day_task import StockDailyTask
@@ -7,7 +6,9 @@ from tasks.stock_day_task import StockDailyTask
 class TestStockListTask(unittest.TestCase):
     def setUp(self) -> None:
         load_dotenv()
-        self.ts_code_set = []
+        self.ts_code_set = [
+            "000001.SZ",
+        ]
 
     def test_run(self):
         stock_daily_task = StockDailyTask()
